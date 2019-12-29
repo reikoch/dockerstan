@@ -1,14 +1,9 @@
 FROM rocker/verse:3.6.1
 
 RUN apt-get update \
-	&& apt-get install -y --no-install-recommends apt-utils ed libnlopt-dev \
+	&& apt-get install -y --no-install-recommends apt-utils ed libnlopt-dev libudunits2-dev libgdal-dev \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/
-
-# Install rstan
-RUN install2.r --error --deps TRUE \
-    rstan \
-    && rm -rf /tmp/downloaded_packages/ /tmp/*.rds
 
 # Global site-wide config -- neeeded for building packages
 RUN mkdir -p $HOME/.R/ \
@@ -21,10 +16,10 @@ RUN mkdir -p $HOME/.R/ \
     && echo "options(mc.cores = parallel::detectCores())\n" >> /home/rstudio/.Rprofile
 
 # Install rstan
-RUN install2.r --error --deps TRUE \
+RUN install2.r --error \
     rstan \
-	loo \
-	bayesplot \
+    loo \
+    bayesplot \
     rstanarm \
     rstantools \
     shinystan \
