@@ -16,12 +16,6 @@ RUN mkdir -p $HOME/.R/ \
     && echo "options(mc.cores = parallel::detectCores())\n" >> /home/rstudio/.Rprofile
 
 # Install rstan
-RUN install2.r --error \
+RUN install2.r --error --deps TRUE \
     rstan \
-    loo \
-    bayesplot \
-    rstanarm \
-    rstantools \
-    shinystan \
-    ggmcmc \
     && rm -rf /tmp/downloaded_packages/ /tmp/*.rds
